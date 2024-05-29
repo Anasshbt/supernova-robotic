@@ -81,6 +81,19 @@ body {
   background-repeat: no-repeat;
   padding: 0;
 }
+.hero_areastarted {
+  
+  height: 130vh;
+  background-color: #070c2a;
+  background-image: url(../images/SUPERNOVA\ ROBOTICS.png);
+  background-size: 100%;
+  height: max-content;
+  min-height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 0;
+}
 
 .sub_page .hero_area {
   height: auto;
