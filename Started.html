@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esigned</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="hero_areastarted">
+    <!-- Header section starts -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container pt-3">
+          <a class="navbar-brand" href="index.html">Supernova Robotics</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about.html">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#team">Our Team</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Contact us</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- Header section ends -->
+
+    <!-- Slider section -->
+    <section class="slider_section position-relative">
+      <div class="container">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row">
+                <div class="col">
+                  <div id="angle" style="color: red;">Angle: 0°</div>
+                </div>
+                <div class="col">
+                  <div id="force">Force: 0</div>
+                </div>
+              </div>
+              <div class="row" style="margin-left: 40%; margin-top: 10%;">
+                <div class="col">
+                  <div>
+                    <hr />
+                    <div style="width: 228px; height: 228px; left: 20px; top: 250px; z-index: 100000;">
+                      <img style="width: 170px; height: 170px;" src="images/joystick-base.png" />
+                      <div id="stick1" style="left: 68px; top: 85px; position: absolute; z-index: 1000000;">
+                        <img src="images/joystick-red.png" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Slider section ends -->
+  </div>
+
+  <script>
+    class JoystickController {
+      constructor(stickID, maxDistance, deadzone) {
+        this.id = stickID;
+        let stick = document.getElementById(stickID);
+        this.dragStart = null;
+        this.touchId = null;
+        this.active = false;
+        this.value = { angle: 0, force: 0 };
+        let self = this;
+
+        function handleDown(event) {
+          self.active = true;
+          stick.style.transition = '0s';
+          event.preventDefault();
+          if (event.changedTouches) {
+            self.dragStart = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+          } else {
+            self.dragStart = { x: event.clientX, y: event.clientY };
+          }
+          if (event.changedTouches) self.touchId = event.changedTouches[0].identifier;
+        }
+
+        function handleMove(event) {
+          if (!self.active) return;
+          let touchmoveId = null;
+          if (event.changedTouches) {
+            for (let i = 0; i < event.changedTouches.length; i++) {
+              if (self.touchId == event.changedTouches[i].identifier) {
+                touchmoveId = i;
+                event.clientX = event.changedTouches[i].clientX;
+                event.clientY = event.changedTouches[i].clientY;
+              }
+            }
+            if (touchmoveId == null) return;
+          }
+          const xDiff = event.clientX - self.dragStart.x;
+          const yDiff = event.clientY - self.dragStart.y;
+          const angle = Math.atan2(yDiff, xDiff) * (180 / Math.PI);
+          const distance = Math.min(maxDistance, Math.hypot(xDiff, yDiff));
+          const force = (distance / maxDistance) * 10;
+          stick.style.transform = `translate3d(${distance * Math.cos(angle * (Math.PI / 180))}px, ${distance * Math.sin(angle * (Math.PI / 180))}px, 0px)`;
+          self.value = { angle: parseFloat(angle.toFixed(2)), force: parseFloat(force.toFixed(2)) };
+        }
+
+        function handleUp(event) {
+          if (!self.active) return;
+          if (event.changedTouches && self.touchId != event.changedTouches[0].identifier) return;
+          stick.style.transition = '.2s';
+          stick.style.transform = `translate3d(0px, 0px, 0px)`;
+          self.value = { angle: 0, force: 0 };
+          self.touchId = null;
+          self.active = false;
+        }
+
+        stick.addEventListener('mousedown', handleDown);
+        stick.addEventListener('touchstart', handleDown);
+        document.addEventListener('mousemove', handleMove, { passive: false });
+        document.addEventListener('touchmove', handleMove, { passive: false });
+        document.addEventListener('mouseup', handleUp);
+        document.addEventListener('touchend', handleUp);
+      }
+    }
+
+    let joystick1 = new JoystickController("stick1", 64, 8);
+
+    function update() {
+      document.getElementById("angle").innerText = "Angle: " + joystick1.value.angle + "°";
+      document.getElementById("force").innerText = "Force: " + joystick1.value.force;
+    }
+
+    function loop() {
+      requestAnimationFrame(loop);
+      update();
+    }
+
+    loop();
+  </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+</body>
+</html>
