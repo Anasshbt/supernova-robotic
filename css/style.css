@@ -816,3 +816,47 @@ border: 2px solid transparent;
   text-decoration: none;
   color:#fff;
 }
+
+.animated-border {
+  
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 10px;
+  padding: 4px; /* Size of the border */
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #1dd1a1, #5f27cd, #ff6b6b);
+  background-size: 300% 300%;
+  animation: gradientAnimation 5s linear infinite;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude; /* For Firefox */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
