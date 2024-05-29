@@ -4,10 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Esigned</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+  <!-- Lien vers le fichier CSS de Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Lien vers le fichier JavaScript de Bootstrap (et jQuery et Popper.js nécessaires) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 <body>
   <div class="hero_areastarted">
@@ -23,17 +37,15 @@
             <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="#">position <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="about.html">About</a>
+                  <a class="nav-link" href="#">Text</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#team">Our Team</a>
+                  <a class="nav-link" href="#">Gps</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact us</a>
-                </li>
+               
               </ul>
             </div>
           </div>
@@ -48,22 +60,22 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <div class="row">
+              <div style="margin-top: 10%; margin-left: 20%;" class="row">
                 <div class="col">
-                  <div id="angle" style="color: red;">Angle: 0°</div>
+                  <div class="getstartedhero" id="angle" >Angle: 0°</div>
                 </div>
                 <div class="col">
-                  <div id="force">Force: 0</div>
+                  <div class="getstartedhero" id="force">Force: 0</div>
                 </div>
               </div>
-              <div class="row" style="margin-left: 40%; margin-top: 10%;">
+              <div class="row" style="margin-left: 41%; margin-top: 3%;">
                 <div class="col">
                   <div>
                     <hr />
                     <div style="width: 228px; height: 228px; left: 20px; top: 250px; z-index: 100000;">
                       <img style="width: 170px; height: 170px;" src="images/joystick-base.png" />
                       <div id="stick1" style="left: 68px; top: 85px; position: absolute; z-index: 1000000;">
-                        <img src="images/joystick-red.png" />
+                        <img src="images/ball4.png" />
                       </div>
                     </div>
                   </div>
@@ -115,10 +127,11 @@
           }
           const xDiff = event.clientX - self.dragStart.x;
           const yDiff = event.clientY - self.dragStart.y;
-          const angle = Math.atan2(yDiff, xDiff) * (180 / Math.PI);
+          let angle = Math.atan2(-yDiff, xDiff) * (180 / Math.PI);
+          angle = (angle < 0) ? angle + 360 : angle;
           const distance = Math.min(maxDistance, Math.hypot(xDiff, yDiff));
           const force = (distance / maxDistance) * 10;
-          stick.style.transform = `translate3d(${distance * Math.cos(angle * (Math.PI / 180))}px, ${distance * Math.sin(angle * (Math.PI / 180))}px, 0px)`;
+          stick.style.transform = `translate3d(${distance * Math.cos(angle * (Math.PI / 180))}px, ${-distance * Math.sin(angle * (Math.PI / 180))}px, 0px)`;
           self.value = { angle: parseFloat(angle.toFixed(2)), force: parseFloat(force.toFixed(2)) };
         }
 
