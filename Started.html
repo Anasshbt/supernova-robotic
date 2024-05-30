@@ -100,8 +100,48 @@
                 </div>
               </div>
             </div>
-            <div class="col animated-border" style=" margin:3%">1</div>
-            <div class="col animated-border" style=" margin:3%">3</div>
+            <div class="col animated-border" style=" margin:3%">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            </div>
+            <div class="col animated-border" style=" margin:3%">
+            
+            
+            
+                <div class="form-container" style="z-index: 40000000;">
+                    <h2>Coordonnées</h2>
+                    <form id="coordinateForm">
+                      <div class="form-group">
+                        <label for="name">Nom</label>
+                        <input type="text" class="form-control" id="name" placeholder="Entrez votre nom" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="latitude">Latitude</label>
+                        <input type="number" step="any" class="form-control" id="latitude" placeholder="Entrez votre latitude" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="longitude">Longitude</label>
+                        <input type="number" step="any" class="form-control" id="longitude" placeholder="Entrez votre longitude" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary btn-block">Soumettre</button>
+                    </form>
+                  </div>
+            
+            
+            
+            
+            
+            
+            
+            </div>
             </div>
             
             </div>
@@ -193,6 +233,23 @@
   </script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  
+  
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+ <script>
+    document.getElementById('coordinateForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const latitude = document.getElementById('latitude').value;
+      const longitude = document.getElementById('longitude').value;
+      alert(`Nom: ${name}\nLatitude: ${latitude}\nLongitude: ${longitude}`);
+    });
+  </script>
+
+
+
+
 </body>
 </html>
