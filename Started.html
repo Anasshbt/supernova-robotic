@@ -76,7 +76,7 @@
 
 
 
-                <div class="row">
+                <div class="row" style="margin-top: -2%;">
                     <div class="col animated-border " style=" margin:3%">
               <div style="margin-top: 10%; margin-left: 12%; " class="row">
                 <div class="col " style="margin-bottom: 4%;" >
@@ -102,7 +102,18 @@
             </div>
             <div class="col animated-border" style=" margin:3%">
             
-            
+              <div class="form-container" style="z-index: 40000000; position:relative;">
+                <h2>Afficher Text</h2>
+                <form id="coordinateForm" >
+                 
+                  <div class="form-group">
+                    <label for="paragraph">Text</label>
+                    <textarea class="form-control" id="paragraph" rows="8" placeholder="Entrez votre paragraphe ici" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">Soumettre</button>
+                </form>
+              </div>
+        
             
             
             
@@ -116,10 +127,10 @@
             
             
             
-                <div class="form-container" style="z-index: 40000000;">
+                <div class="form-container" style="z-index: 40000000; position:relative;">
                     <h2>Coordonnées</h2>
-                    <form id="coordinateForm">
-                      <div class="form-group">
+                    <form id="coordinateForm" >
+                      <div class="">
                         <label for="name">Nom</label>
                         <input type="text" class="form-control" id="name" placeholder="Entrez votre nom" required>
                       </div>
